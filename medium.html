@@ -7,6 +7,7 @@
 <body>
 <center><h3>模式：普通</h3></center>
 <div style="font-family:verdana;padding:20px;border-radius:10px;border:10px solid #EE872A;">
+    <button onclick="renew()">重新开始</button>
     <p id="win">输赢:</p>
     <p id="bullet">子弹数量:0</p>
     <p id="round">你的回合:</p>
@@ -14,11 +15,41 @@
     <p id="botround">对方回合:</p>
     <p id="defa">防御次数:</p>
     <a href="./index.html">重新选择难度</a>
-    <center><input style type="text" id="userInput"/> <input style type="submit" onclick="sure();"/></center>
-    <center><p>请输入数字<br>1表示装弹<br>2表示枪<br>3表示盾<br>
-        4表示反弹盾<br>5表示克鲁斯<br>6表示冲击波</p></center>
+
+    <button onclick="human1()">装弹</button>
+    <button onclick="human2()">枪</button>
+    <button onclick="human3()">盾</button>
+    <button onclick="human4()">反弹盾</button>
+    <button onclick="human5()">克鲁斯</button>
+    <button onclick="human6()">冲击波</button>
 </div>
 <script>
+
+    function renew(){
+        r = 1
+        //bot bullet
+        e = 0
+        //human bullet
+        b = 0;
+        //output what human type
+        c= " ";
+        //output what bot decide
+        d=" ";
+        // what human input
+        state = " "
+        bstate = " "
+        //is Continuous defense？
+        def = 0
+        bdef = 0
+        document.getElementById("bullet").innerHTML = "子弹数量:" + b;
+        document.getElementById("round").innerHTML = "你的回合:" + c
+        document.getElementById("botround").innerHTML = "对方回合:" + d;
+        document.getElementById("botbullet").innerHTML = "敌方子弹数量:" + e;
+        document.getElementById("defa").innerHTML = "防御次数:" + def;
+        document.getElementById("win").innerHTML = "输赢: ";
+    }
+
+
     var r = 1
     //bot bullet
     e = 0
@@ -35,300 +66,357 @@
     var def = 0
     var bdef = 0
 
-    function sure() {
-        var input = document.getElementById("userInput").value;
-        //human
+    function human1(){
+        input =1
+        game();
+    }
+    function human2(){
+        input =2
+        game();
+    }
+    function human3(){
+        input =3
+        game();
+    }
+    function human4(){
+        input =4
+        game();
+    }
+    function human5(){
+        input =5
+        game();
+    }
+    function human6(){
+        input =6
+        game();
+    }
 
 
-        if (input == 1) {
-            b = b + 1;
-            c = "装弹";
-            state = "bullet";
+function game() {
+    if (input == 1) {
+        b = b + 1;
+        c = "装弹";
+        state = "bullet";
+        def = 0
+    }
+    if (input == 2) {
+        if (input == 2 && b >= 1) {
+            b = b - 1
+            c = "枪"
+            state = "gun";
             def = 0
+
+        } else {
+            alert("你没有足够的子弹")
         }
-        if (input == 2) {
-            if (input == 2 && b >= 1) {
-                b = b - 1
-                c = "枪"
-                state = "gun";
-                def = 0
+    }
+    if (input == 3) {
 
-            } else {
-                alert("你没有足够的子弹")
-            }
+        if (input == 3 && def < 2) {
+            c = "盾";
+
+            state = "shiled";
+            def = def + 1
+        } else if (input == 3 && def == 2) {
+            alert("三次防御了")
         }
-        if (input == 3) {
-
-            if (input == 3 && def < 2) {
-                c = "盾";
-
-                state = "shiled";
-                def = def + 1
-            } else if (input == 3 && def == 2) {
-                alert("三次防御了")
-            }
+    }
+    if (input == 4) {
+        if (input == 4 && b >= 1) {
+            b = b - 1
+            state = "rebound";
+            c = "反弹盾"
+            def = 0
+        } else {
+            alert("你没有足够的子弹")
         }
-        if (input == 4) {
-            if (input == 4 && b >= 1) {
-                b = b - 1
-                state = "shield2";
-                c = "反弹盾"
-                def = 0
-            } else {
-                alert("你没有足够的子弹")
-            }
+    }
+    if (input == 5) {
+        if (input == 5 && b >= 1) {
+            b = b - 1
+            state = "cruse";
+            c = "克鲁斯"
+            def = 0
+        } else {
+            alert("你没有足够的子弹")
         }
-        if (input == 5) {
-            if (input == 5 && b >= 1) {
-                b = b - 1
-                state = "cruse";
-                c = "克鲁斯"
-                def = 0
-            } else {
-                alert("你没有足够的子弹")
-            }
+    }
+    if (input == 6) {
+        if (input == 6 && b >= 1) {
+            b = b - 1
+            state = "wave";
+            c = "冲击波"
+            def = 0
+        } else {
+            alert("你没有足够的子弹")
         }
-        if (input == 6) {
-            if (input == 6 && b >= 1) {
-                b = b - 1
-                state = "wave";
-                c = "冲击波"
-                def = 0
-            } else {
-                alert("你没有足够的子弹")
-            }
+    }
+
+    //bot
+    //bot decision if bullet
+
+    if (r == 1 && b > 0) {
+        e = e + 1
+        d = "装弹";
+        r = r + 1
+    } else if (r == 1 && b == 0) {
+
+
+    } else if (input == 1) {
+        num = Math.floor(Math.random() * 3) + 1 //4
+        if (num == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num == 3 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num == 2 && e > 1) {
+            e = e - 1
+            d = "克鲁斯"
+            bstate = "cruse";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
         }
-
-        //bot
-        //bot decision if bullet
-
-            if (r == 1 && b > 0) {
-                e = e + 1
-                d = "装弹";
-                r = r + 1
-            } else if (r == 1 && b == 0) {
-
-
-            } else if (input == 1) {
-                num = Math.floor(Math.random() * 3) + 1 //4
-                if (num == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num == 2 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num == 3 && e >= 1) {
-                    e = e - 1
-                    d = "克鲁斯"
-                    bstate = "cruse";
-                    bdef = 0
-                }
-            } else if (input == 2) {
-                num1 = Math.floor(Math.random() * 4) + 1 //4
-                if (num1 == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num1 == 2 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num1 == 3 && bdef < 2) {
-                    d = "盾";
-                    bstate = "shiled";
-                    bdef = bdef + 1
-                } else if (num1 == 4 && e >= 1) {
-                    e = e - 1
-                    d = "反弹盾"
-                    state = "shiled2";
-                    bdef = 0
-                }
-            } else if (input == 3) {
-                num2 = Math.floor(Math.random() * 3) + 1 //3
-
-                if (num2 == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num2 == 2 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num2 == 3 && e >= 1) {
-                    e = e - 1
-                    d = "冲击波"
-                    bstate = "wave";
-                    bdef = 0
-                }
-            } else if (input == 4) {
-                num3 = Math.floor(Math.random() * 4) + 1 //4
-                if (num == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num == 2 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num == 3 && e >= 1) {
-                    e = e - 1
-                    d = "克鲁斯"
-                    bstate = "cruse";
-                    bdef = 0
-                } else if (num == 4 && e >= 1) {
-                    e = e - 1
-                    d = "冲击波"
-                    bstate = "wave";
-                    bdef = 0
-                }
-            } else if (input == 5) {
-                num4 = Math.floor(Math.random() * 4) + 1
-                if (num4 == 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num4 == 2 && bdef < 2) {
-                    d = "盾";
-                    bstate = "shiled";
-                    bdef = bdef + 1
-                } else if (num4 == 3 && e >= 1) {
-                    e = e - 1
-                    d = "反弹盾"
-                    state = "shiled2";
-                    bdef = 0
-                } else if (num4 == 4 && e >= 1) {
-                    e = e - 1
-                    d = "冲击波"
-                    bstate = "wave";
-                    bdef = 0
-                }
-            } else if (input == 6) {
-                num5 = Math.floor(Math.random() * 4) + 1
-                if (num5 == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num5 == 2 && bdef < 2) {
-                    d = "盾";
-                    bstate = "shiled";
-                    bdef = bdef + 1
-                } else if (num5 == 3 && e >= 1) {
-                    e = e - 1
-                    d = "反弹盾"
-                    state = "shiled2";
-                    bdef = 0
-                } else if (num5 == 4 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                }
-            } else if (b == 0) {
-                num6 = Math.floor(Math.random() * 6) + 1
-                if (num6 == 1) {
-                    e = e + 1
-                    d = "装弹";
-                    bdef = 0
-                    bstate = "bullet";
-                } else if (num6 == 2 && e >= 1) {
-                    e = e - 1
-                    d = "枪"
-                    bstate = "gun";
-                    bdef = 0
-                } else if (num1 == 3 && e >= 1) {
-                    e = e - 1
-                    d = "克鲁斯"
-                    bstate = "cruse";
-                    bdef = 0
-                } else if (num1 == 4 && e >= 1) {
-                    e = e - 1
-                    d = "冲击波"
-                    bstate = "wave";
-                    bdef = 0
-                }
-            } else {
-                e = e + 1
-                d = "装弹";
-                bdef = 0
-                bstate = "bullet";
-            }
-
-            //output
-            document.getElementById("bullet").innerHTML = "子弹数量:" + b;
-            document.getElementById("round").innerHTML = "你的回合:" + c
-            document.getElementById("botround").innerHTML = "对方回合:" + d;
-            document.getElementById("botbullet").innerHTML = "敌方子弹数量:" + e;
-            document.getElementById("defa").innerHTML = "防御次数:" + def;
-
-            //human or bot
-            if (state == "bullet" && bstate == "gun") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "wave" && bstate == "gun") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "cruse" && bstate == "gun") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "bullet" && bstate == "cruse") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "shiled" && bstate == "cruse") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "wave" && bstate == "cruse") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "shiled" && bstate == "wave") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "shiled2" && bstate == "wave") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (state == "gun" && bstate == "shiled2") {
-                alert("你输了");
-                document.getElementById("win").innerHTML = "输赢:输";
-            } else if (bstate == "bullet" && state == "gun") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "wave" && state == "gun") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "cruse" && state == "gun") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "bullet" && state == "cruse") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "shiled2" && state == "cruse") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "wave" && state == "cruse") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "shiled" && state == "wave") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "shiled2" && state == "wave") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            } else if (bstate == "gun" && state == "shiled2") {
-                alert("你赢了");
-                document.getElementById("win").innerHTML = "输赢:赢";
-            }
+    } else if (input == 2) {
+        num1 = Math.floor(Math.random() * 4) + 1 //4
+        if (num1 == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num1 == 2 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num1 == 3 && bdef < 2) {
+            d = "盾";
+            bstate = "shiled";
+            bdef = bdef + 1
+        } else if (num1 == 4 && e > 1) {
+            e = e - 1
+            d = "反弹盾"
+            state = "shiled2";
+            bdef = 0
+        }else{
+            d = "盾";
+            bdef = 0
+            bstate = "shiled";
         }
+    } else if (input == 3) {
+        num2 = Math.floor(Math.random() * 3) + 1 //3
+
+        if (num2 == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num2 == 2 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num2 == 3 && e > 1) {
+            e = e - 1
+            d = "冲击波"
+            bstate = "wave";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        }
+    } else if (input == 4) {
+        num3 = Math.floor(Math.random() * 4) + 1 //4
+        if (num == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num == 2 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num == 3 && e > 1) {
+            e = e - 1
+            d = "克鲁斯"
+            bstate = "cruse";
+            bdef = 0
+        } else if (num == 4 && e > 1) {
+            e = e - 1
+            d = "冲击波"
+            bstate = "wave";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        }
+    } else if (input == 5) {
+        num4 = Math.floor(Math.random() * 4) + 1
+        if (num4 == 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num4 == 2 && bdef < 2) {
+            d = "盾";
+            bstate = "shiled";
+            bdef = bdef + 1
+        } else if (num4 == 3 && e > 1) {
+            e = e - 1
+            d = "反弹盾"
+            state = "shiled2";
+            bdef = 0
+        } else if (num4 == 4 && e > 1) {
+            e = e - 1
+            d = "冲击波"
+            bstate = "wave";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        }
+    } else if (input == 6) {
+        num5 = Math.floor(Math.random() * 4) + 1
+        if (num5 == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num5 == 2 && bdef < 2) {
+            d = "盾";
+            bstate = "shiled";
+            bdef = bdef + 1
+        } else if (num5 == 3 && e > 1) {
+            e = e - 1
+            d = "反弹盾"
+            state = "shiled2";
+            bdef = 0
+        } else if (num5 == 4 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        }
+    } else if (b == 0) {
+        num6 = Math.floor(Math.random() * 6) + 1
+        if (num6 == 1) {
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        } else if (num6 == 2 && e > 1) {
+            e = e - 1
+            d = "枪"
+            bstate = "gun";
+            bdef = 0
+        } else if (num1 == 3 && e > 1) {
+            e = e - 1
+            d = "克鲁斯"
+            bstate = "cruse";
+            bdef = 0
+        } else if (num1 == 4 && e > 1) {
+            e = e - 1
+            d = "冲击波"
+            bstate = "wave";
+            bdef = 0
+        }else{
+            e = e + 1
+            d = "装弹";
+            bdef = 0
+            bstate = "bullet";
+        }
+    } else {
+        e = e + 1
+        d = "装弹";
+        bdef = 0
+        bstate = "bullet";
+    }
+
+    //output
+    document.getElementById("bullet").innerHTML = "子弹数量:" + b;
+    document.getElementById("round").innerHTML = "你的回合:" + c
+    document.getElementById("botround").innerHTML = "对方回合:" + d;
+    document.getElementById("botbullet").innerHTML = "敌方子弹数量:" + e;
+    document.getElementById("defa").innerHTML = "防御次数:" + def;
+    //human or bot
+    if (state === "bullet" && bstate === "gun") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "wave" && bstate === "gun") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "cruse" && bstate === "gun") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "bullet" && bstate === "cruse") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "rebound" && bstate === "cruse") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "wave" && bstate === "cruse") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "shiled" && bstate === "wave") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "rebound" && bstate === "wave") {
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (state === "gun" && bstate === "rebound") {
+
+        alert("你输了");
+        document.getElementById("win").innerHTML = "输赢:输";
+    } else if (bstate === "bullet" && state === "gun") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate === "wave" && state === "gun") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate === "cruse" && state === "gun") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate == "bullet" && state == "cruse") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate === "shiled2" && state == "cruse") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate == "wave" && state == "cruse") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate == "shiled" && state == "wave") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate === "rebound" && state == "wave") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    } else if (bstate == "gun" && state === "rebound") {
+        alert("你赢了");
+        document.getElementById("win").innerHTML = "输赢:赢";
+    }
+}
+
 
 
 
