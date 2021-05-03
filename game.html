@@ -502,7 +502,7 @@
             r = r + 1
         } else if (r == 1 && b == 0) {
 
-        } else if (b > 0 && def < 3) {
+        } else if (def < 3) {
 
             num = Math.floor(Math.random() * 6) + 1
             if (num == 1) {
@@ -712,7 +712,6 @@
             alert("你赢了");
             document.getElementById("win").innerHTML = "输赢:赢";
         } else if (bstate === "bullet" && state === "cruse") {
-alert(bstate)
             alert("你赢了");
             document.getElementById("win").innerHTML = "输赢:赢";
         } else if (bstate === "shiled2" && state == "cruse") {
