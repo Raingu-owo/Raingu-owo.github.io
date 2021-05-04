@@ -313,7 +313,7 @@ function game() {
             bstate = "bullet";
         }
     } else if (b == 0) {
-        num6 = Math.floor(Math.random() * 6) + 1
+        num6 = Math.floor(Math.random() * 4) + 1
         if (num6 === 1) {
             e = e + 1
             d = "装弹";
@@ -394,7 +394,7 @@ function game() {
     } else if (bstate == "bullet" && state == "cruse") {
         alert("你赢了");
         document.getElementById("win").innerHTML = "输赢:赢";
-    } else if (bstate === "shiled2" && state == "cruse") {
+    } else if (bstate === "rebound" && state == "cruse") {
         alert("你赢了");
         document.getElementById("win").innerHTML = "输赢:赢";
     } else if (bstate == "wave" && state == "cruse") {
