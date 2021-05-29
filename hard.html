@@ -206,9 +206,8 @@ function game() {
             bdef = 0
             bstate = "shiled";
         }
-    } else if (input == 3) {
+    } else if (input === 3) {
         num2 = Math.floor(Math.random() * 2) + 1 //2
-
         if (num2 === 1) {
             e = e + 1
             d = "装弹";
@@ -243,7 +242,7 @@ function game() {
             bstate = "wave";
             bdef = 0
         }else{
-            e = e - 1
+            e = e + 1
             d = "装弹";
             bdef = 0
             bstate = "bullet";
